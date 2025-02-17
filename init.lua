@@ -169,6 +169,8 @@ vim.api.nvim_create_autocmd({ 'FileType' }, {
   end,
 })
 
+vim.opt.smartindent = true
+
 -- Save undo history
 vim.opt.undofile = true
 
