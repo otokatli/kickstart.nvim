@@ -102,7 +102,7 @@ vim.g.have_nerd_font = true
 vim.opt.number = true
 -- You can also add relative line numbers, to help with jumping.
 --  Experiment for yourself to see if you like it!
--- vim.opt.relativenumber = true
+vim.opt.relativenumber = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = 'a'
@@ -118,8 +118,56 @@ vim.schedule(function()
   vim.opt.clipboard = 'unnamedplus'
 end)
 
+-- Enable text wrapping
+vim.opt.wrap = true
+
+-- Set the maximum width for wrapping
+vim.opt.textwidth = 79
+
 -- Enable break indent
 vim.opt.breakindent = true
+vim.opt.showbreak = ' '
+
+-- Indentation settings
+vim.opt.expandtab = true -- Use spaces instead of tabs
+vim.opt.tabstop = 4 -- Number of spaces per tab
+vim.opt.shiftwidth = 4 -- Number of spaces for indentation
+vim.opt.smartindent = true -- Smart indentation (often helpful)
+vim.opt.autoindent = true -- Auto indentation
+vim.opt.listchars = 'eol:$,tab:> ,trail:·,extends:>,precedes:<' -- Customize listchars if needed
+vim.opt.list = true -- Show list characters (useful for visually checking indentation)
+
+-- Specifically for markdown files:
+vim.api.nvim_create_autocmd({ 'FileType' }, {
+  pattern = 'markdown',
+  callback = function()
+    -- Enable soft wrap for markdown files (important for previewing)
+    vim.opt_local.wrap = true
+
+    -- Set textwidth for markdown files if you want it different
+    vim.opt_local.textwidth = 72 -- Or your preferred width
+
+    -- Indentation specific to markdown
+    vim.opt_local.expandtab = true
+    vim.opt_local.tabstop = 4
+    vim.opt_local.shiftwidth = 4
+    vim.opt_local.breakindent = true
+    vim.opt_local.showbreak = ' '
+    vim.opt_local.autoindent = true
+    vim.opt_local.smartindent = true
+
+    -- Disable formatoptions that might interfere with markdown lists
+    vim.opt_local.formatoptions = vim.opt_local.formatoptions - { 'o', 'r' } -- Remove 'o' (auto-formatting) and 'r' (auto-insert comments)
+  end,
+})
+
+-- Optional: Enable spell checking for markdown
+vim.api.nvim_create_autocmd({ 'FileType' }, {
+  pattern = 'markdown',
+  callback = function()
+    vim.opt_local.spell = true
+  end,
+})
 
 -- Save undo history
 vim.opt.undofile = true
