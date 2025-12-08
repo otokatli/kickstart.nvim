@@ -1018,3 +1018,6 @@ require('lazy').setup({
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
+
+-- Use a dedicated Python3 virtual environment for neovim
+vim.g.python3_host_prog = vim.fn.expand '~/.local/share/nvim/python-venv/bin/python'
