@@ -602,7 +602,10 @@ require('lazy').setup({
       local servers = {
         -- clangd = {},
         -- gopls = {},
-        -- pyright = {},
+        pyright = {},
+        texlab = {},
+        dockerls = {},
+        docker_compose_language_service = {},
         -- rust_analyzer = {},
         --
         -- Some languages (like typescript) have entire language plugins that can be useful:
@@ -653,6 +656,11 @@ require('lazy').setup({
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         -- You can add other tools here that you want Mason to install
+        'stylua',
+        'isort',
+        'black',
+        'debugpy',
+        'hadolint',
       })
 
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
@@ -697,7 +705,7 @@ require('lazy').setup({
       formatters_by_ft = {
         lua = { 'stylua' },
         -- Conform can also run multiple formatters sequentially
-        -- python = { "isort", "black" },
+        python = { 'isort', 'black' },
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
         -- javascript = { "prettierd", "prettier", stop_after_first = true },
@@ -874,7 +882,8 @@ require('lazy').setup({
     branch = 'main',
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter-intro`
     config = function()
-      local parsers = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' }
+      local parsers =
+        { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'python', 'dockerfile', 'yaml' }
       require('nvim-treesitter').install(parsers)
       vim.api.nvim_create_autocmd('FileType', {
         callback = function(args)
@@ -909,7 +918,7 @@ require('lazy').setup({
   --  Here are some example plugins that I've included in the Kickstart repository.
   --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --
-  -- require 'kickstart.plugins.debug',
+  require 'kickstart.plugins.debug',
   -- require 'kickstart.plugins.indent_line',
   -- require 'kickstart.plugins.lint',
   -- require 'kickstart.plugins.autopairs',
@@ -945,6 +954,33 @@ require('lazy').setup({
       task = '📌',
       lazy = '💤 ',
     },
+  },
+  {
+    'mfussenegger/nvim-dap-python',
+    ft = 'python',
+    dependencies = {
+      'mfussenegger/nvim-dap',
+      'rcarriga/nvim-dap-ui',
+      'nvim-neotest/nvim-nio',
+    },
+    config = function()
+      -- Automatically resolve the path to debugpy installed by Mason
+      local path = vim.fn.stdpath 'data' .. '/mason/packages/debugpy/venv/bin/python'
+      require('dap-python').setup(path)
+
+      -- Optional: Add a keymap to easily run the current Python test method
+      vim.keymap.set('n', '<leader>dpr', function() require('dap-python').test_method() end, { desc = '[D]ebug [P]ython [R]un method' })
+    end,
+  },
+  {
+    'lervag/vimtex',
+    lazy = false, -- VimTeX relies on its own FT plugin system, lazy-loading breaks it
+    init = function()
+      -- Tell VimTeX to use Zathura as the PDF viewer
+      vim.g.vimtex_view_method = 'zathura'
+      -- Disable concealing if you want to see the raw LaTeX syntax
+      vim.g.tex_conceal = ''
+    end,
   },
 })
 
