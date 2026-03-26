@@ -786,7 +786,7 @@ require('lazy').setup({
   --    This is the easiest way to modularize your config.
   --
   --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
-  -- { import = 'custom.plugins' },
+  { import = 'custom.plugins' },
   --
   -- For additional information with loading, sourcing and examples see `:help lazy.nvim-🔌-plugin-spec`
   -- Or use telescope!
@@ -827,16 +827,6 @@ require('lazy').setup({
 
       -- Optional: Add a keymap to easily run the current Python test method
       vim.keymap.set('n', '<leader>dpr', function() require('dap-python').test_method() end, { desc = '[D]ebug [P]ython [R]un method' })
-    end,
-  },
-  {
-    'lervag/vimtex',
-    lazy = false, -- VimTeX relies on its own FT plugin system, lazy-loading breaks it
-    init = function()
-      -- Tell VimTeX to use Zathura as the PDF viewer
-      vim.g.vimtex_view_method = 'zathura'
-      -- Disable concealing if you want to see the raw LaTeX syntax
-      vim.g.tex_conceal = ''
     end,
   },
 })
