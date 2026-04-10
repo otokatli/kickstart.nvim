@@ -1,6 +1,4 @@
 --[[
--- Force Neovim to use the dedicated virtual environment
-vim.g.python3_host_prog = vim.fn.expand("~/.local/share/nvim/python-venv/bin/python")
 =====================================================================
 ==================== READ THIS BEFORE CONTINUING ====================
 =====================================================================
@@ -87,6 +85,9 @@ P.S. You can delete this when you're done too. It's your config now! :)
 
 require 'config.options'
 require 'config.keymaps'
+
+-- Force Neovim to use the dedicated virtual environment
+vim.g.python3_host_prog = vim.fn.expand '~/.local/share/nvim/python-venv/bin/python'
 
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
