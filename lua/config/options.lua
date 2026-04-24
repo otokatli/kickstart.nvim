@@ -115,3 +115,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 
 -- Force Neovim to use the dedicated virtual environment
 vim.g.python3_host_prog = vim.fn.expand '~/.local/share/nvim/python-venv/bin/python'
+
+-- Disable ruby and perl support
+vim.g.loaded_ruby_provider = 0
+vim.g.loaded_perl_provider = 0
