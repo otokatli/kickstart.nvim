@@ -1,4 +1,9 @@
 return {
   'NMAC427/guess-indent.nvim',
-  opts = {},
+  opts = {
+    filetype_exclude = {
+      'c',
+      'cpp',
+    },
+  },
 }
